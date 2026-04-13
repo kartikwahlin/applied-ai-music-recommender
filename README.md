@@ -29,6 +29,13 @@ Some prompts to answer:
 
 You can include a simple diagram or bullet list if helpful.
 
+Recommendation algorithms run off of two types of sorting: collaborative and content-based. Collaborative filtering suggests things that people like you also like. Content-based filtering just looks at the numbers for individual items and checks to see if they're similar.
+
+Our recommendation system will be more focused on the content-based end of things, since our given data about the songs all relates to their contents, and we don't have other user data. My system focuses on mood, energy, and genre, and rewards matches in these fields by giving them the highest weighting.
+
+It compares the ideal values in UserProfile, to the song's actual values from the csv. Scores depend on checking if these values match, and multiplying their similarity by a weight determined based on how important we think the attribute is.
+
+Suggestions will be largely guided by score, but Claude has mentioned that shaking up the genre a bit, instead of going from the highest to lowest score, can help keep things interesting for the consumer.
 ---
 
 ## Getting Started
