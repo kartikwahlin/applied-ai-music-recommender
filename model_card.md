@@ -4,7 +4,7 @@
 
 Give your model a short, descriptive name.  
 Example: **VibeFinder 1.0**  
-
+This is the genreMatcher.
 ---
 
 ## 2. Intended Use  
@@ -17,6 +17,7 @@ Prompts:
 - What assumptions does it make about the user  
 - Is this for real users or classroom exploration  
 
+System is designed to take user information, and suggest songs that the user might like. This is a very simple example, and a real system would have a way to get the user information from what they listen to.
 ---
 
 ## 3. How the Model Works  
@@ -32,6 +33,7 @@ Prompts:
 
 Avoid code here. Pretend you are explaining the idea to a friend who does not program.
 
+See README
 ---
 
 ## 4. Data  
@@ -44,6 +46,8 @@ Prompts:
 - What genres or moods are represented  
 - Did you add or remove data  
 - Are there parts of musical taste missing in the dataset  
+
+The dataset is fairly varied, with slight concentration in pop.
 
 ---
 
@@ -111,6 +115,7 @@ Prompts:
 - Improving diversity among the top results  
 - Handling more complex user tastes  
 
+I want to add something to mix up the top results, but I don't think this will be an issue for small datasets like the sample one. I also want to rank the explanation messages by weight, since they are in fixed order and the most valuable factor could print last.
 ---
 
 ## 9. Personal Reflection  

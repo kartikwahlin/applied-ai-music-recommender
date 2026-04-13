@@ -125,7 +125,9 @@ Write 1 to 2 paragraphs here about what you learned:
 - about how recommenders turn data into predictions
 - about where bias or unfairness could show up in systems like this
 
+I learned a lot about how recommenders use variable weighting to make recommendations, and how they can pull certain options out of left field using collaborative filtering. 
 
+These systems, when placing too much weight on other users' decisions, can end up throwing up whatever is popular, rather than what the user might like.
 ---
 
 ## 7. `model_card_template.md`
