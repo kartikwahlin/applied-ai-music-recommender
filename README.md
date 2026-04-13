@@ -42,6 +42,11 @@ My algorithm acts based off two datasets: The user's target values, and the csv 
 Currently, mood and genre are very strong deciders in a song's score, so if these are incorrectly labeled, they could cause bad suggestions
 
 ![myoutput](Screenshot.png)
+![myoutput](Screenshot1.png)
+![myoutput](Screenshot2.png)
+![myoutput](Screenshot3.png)
+![myoutput](Screenshot4.png)
+![myoutput](Screenshot5.png)
 ---
 
 ## Getting Started
@@ -82,7 +87,9 @@ You can add more tests in `tests/test_recommender.py`.
 ## Experiments You Tried
 
 Use this section to document the experiments you ran. For example:
+I tried removing the mood check to see if things would change. The results seemed to remain accurate, even if the exact same songs didn't show up.
 
+I tested rock versus lo-fi, and it seemed like rock was always high-energy, and lo-fi was always below 0.5. This makes sense, since lo-fi is entirely about being low energy, and rock is usually about being higher energy.
 - What happened when you changed the weight on genre from 2.0 to 0.5
 - What happened when you added tempo or valence to the score
 - How did your system behave for different types of users
@@ -94,6 +101,10 @@ Use this section to document the experiments you ran. For example:
 Summarize some limitations of your recommender.
 
 Examples:
+Some of the issues of this recommender include:
+- BPM is uncapped and can add infinite positive or negative value in odd cases
+- It heavily prioritizes genre and mood
+- It doesn't do anything to make sure it's avoiding repeat songs. many phonk artists like to publish slowed version of their songs.
 
 - It only works on a tiny catalog
 - It does not understand lyrics or language

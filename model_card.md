@@ -57,6 +57,8 @@ Prompts:
 - Any patterns you think your scoring captures correctly  
 - Cases where the recommendations matched your intuition  
 
+With accurate mood and genre tags, it will match them properly.
+Outliers are very rare, since it doesn't do anything after deciding score.
 ---
 
 ## 6. Limitations and Bias 
@@ -69,6 +71,13 @@ Prompts:
 - Genres or moods that are underrepresented  
 - Cases where the system overfits to one preference  
 - Ways the scoring might unintentionally favor some users  
+
+Some of the issues of this recommender include:
+- BPM is uncapped and can add infinite positive or negative value in odd cases
+- It heavily prioritizes genre and mood
+- It doesn't do anything to make sure it's avoiding repeat songs. many phonk artists like to publish slowed version of their songs.
+
+
 
 ---
 
@@ -84,6 +93,10 @@ Prompts:
 - Any simple tests or comparisons you ran  
 
 No need for numeric metrics unless you created some.
+
+I tested rock versus lo-fi, and it seemed like rock was always high-energy, and lo-fi was always below 0.5. This makes sense, since lo-fi is entirely about being low energy, and rock is usually about being higher energy.
+I generally paid attention to energy and acousticness, since the genre and mood were usually matches and had few outliers.
+The 'dead center' profile gave a wide variety of genres, since the strongest metrick seemed to be energy proximity. It ended up with blues, lo-fi, country, and soul songs all in the same list.
 
 ---
 
@@ -108,4 +121,6 @@ Prompts:
 
 - What you learned about recommender systems  
 - Something unexpected or interesting you discovered  
-- How this changed the way you think about music recommendation apps  
+- How this changed the way you think about music recommendation apps 
+
+This project really cleared up recommender systems for me. I learned about how to run python code from the terminal when claude used the -m flag, and it taught me a bit about easily making testcases and writing apt docstrings. Now I know why spotify refuses to get off of certain genres at times.

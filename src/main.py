@@ -15,7 +15,14 @@ from recommender import load_songs, recommend_songs
 def main() -> None:
     songs = load_songs("data/songs.csv")
 
-    user_prefs = {"genre": "pop", "mood": "happy", "energy": 0.85, "tempo_bpm": 125, "valence": 0.8}
+    high_energy_pop   = {"genre": "pop",  "mood": "happy",   "energy": 0.85, "tempo_bpm": 125, "valence": 0.82, "acousticness": 0.15}
+    chill_lofi_study  = {"genre": "lofi", "mood": "chill",   "energy": 0.38, "tempo_bpm": 78,  "valence": 0.58, "acousticness": 0.80}
+    deep_intense_rock = {"genre": "rock", "mood": "intense", "energy": 0.92, "tempo_bpm": 155, "valence": 0.40, "acousticness": 0.08}
+    dead_center = {"genre": "indie", "mood": "neutral", "energy": 0.50, "tempo_bpm": 100, "valence": 0.50, "acousticness": 0.50}
+    ghost_genre = {"genre": "k-pop", "mood": "melancholic", "energy": 0.80, "tempo_bpm": 120, "valence": 0.85, "acousticness": 0.10}
+
+
+    user_prefs = high_energy_pop   # swap this to test a different profile
 
     recommendations = recommend_songs(user_prefs, songs, k=5)
 
