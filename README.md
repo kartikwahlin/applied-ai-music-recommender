@@ -36,6 +36,10 @@ Our recommendation system will be more focused on the content-based end of thing
 It compares the ideal values in UserProfile, to the song's actual values from the csv. Scores depend on checking if these values match, and multiplying their similarity by a weight determined based on how important we think the attribute is.
 
 Suggestions will be largely guided by score, but Claude has mentioned that shaking up the genre a bit, instead of going from the highest to lowest score, can help keep things interesting for the consumer.
+
+### Algorithm Recipe
+My algorithm acts based off two datasets: The user's target values, and the csv containing all of a song's attributes. The weighted matching algorithm then goes through the entire list of songs, and gives each of them a score based off similarity. Once this is done, they are sorted by score in descending order, and the system will play the top songs.
+Currently, mood and genre are very strong deciders in a song's score, so if these are incorrectly labeled, they could cause bad suggestions
 ---
 
 ## Getting Started
