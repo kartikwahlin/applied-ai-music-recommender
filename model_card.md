@@ -1,131 +1,66 @@
-# 🎧 Model Card: Music Recommender Simulation
+# Model Card: Music Recommender
 
-## 1. Model Name  
-
-Give your model a short, descriptive name.  
-Example: **VibeFinder 1.0**  
-This is the genreMatcher.
----
-
-## 2. Intended Use  
-
-Describe what your recommender is designed to do and who it is for. 
-
-Prompts:  
-
-- What kind of recommendations does it generate  
-- What assumptions does it make about the user  
-- Is this for real users or classroom exploration  
-
-System is designed to take user information, and suggest songs that the user might like. This is a very simple example, and a real system would have a way to get the user information from what they listen to.
----
-
-## 3. How the Model Works  
-
-Explain your scoring approach in simple language.  
-
-Prompts:  
-
-- What features of each song are used (genre, energy, mood, etc.)  
-- What user preferences are considered  
-- How does the model turn those into a score  
-- What changes did you make from the starter logic  
-
-Avoid code here. Pretend you are explaining the idea to a friend who does not program.
-
-See README
----
-
-## 4. Data  
-
-Describe the dataset the model uses.  
-
-Prompts:  
-
-- How many songs are in the catalog  
-- What genres or moods are represented  
-- Did you add or remove data  
-- Are there parts of musical taste missing in the dataset  
-
-The dataset is fairly varied, with slight concentration in pop.
+## Model Name
+genreMatcher
 
 ---
 
-## 5. Strengths  
-
-Where does your system seem to work well  
-
-Prompts:  
-
-- User types for which it gives reasonable results  
-- Any patterns you think your scoring captures correctly  
-- Cases where the recommendations matched your intuition  
-
-With accurate mood and genre tags, it will match them properly.
-Outliers are very rare, since it doesn't do anything after deciding score.
----
-
-## 6. Limitations and Bias 
-
-Where the system struggles or behaves unfairly. 
-
-Prompts:  
-
-- Features it does not consider  
-- Genres or moods that are underrepresented  
-- Cases where the system overfits to one preference  
-- Ways the scoring might unintentionally favor some users  
-
-Some of the issues of this recommender include:
-- BPM is uncapped and can add infinite positive or negative value in odd cases
-- It heavily prioritizes genre and mood
-- It doesn't do anything to make sure it's avoiding repeat songs. many phonk artists like to publish slowed version of their songs.
-
-
+## Intended Use
+The system takes user preferences and suggests songs from a catalog that the user is likely to enjoy. It assumes the user can be represented by a genre, mood, and a set of numeric audio features (energy, tempo, valence, acousticness). This is a classroom exploration of how content-based filtering works — a real system would derive preferences from listening history rather than manual input.
 
 ---
 
-## 7. Evaluation  
-
-How you checked whether the recommender behaved as expected. 
-
-Prompts:  
-
-- Which user profiles you tested  
-- What you looked for in the recommendations  
-- What surprised you  
-- Any simple tests or comparisons you ran  
-
-No need for numeric metrics unless you created some.
-
-I tested rock versus lo-fi, and it seemed like rock was always high-energy, and lo-fi was always below 0.5. This makes sense, since lo-fi is entirely about being low energy, and rock is usually about being higher energy.
-I generally paid attention to energy and acousticness, since the genre and mood were usually matches and had few outliers.
-The 'dead center' profile gave a wide variety of genres, since the strongest metrick seemed to be energy proximity. It ended up with blues, lo-fi, country, and soul songs all in the same list.
+## How the Model Works
+Each song in the catalog is compared to the user's preference profile using a weighted scoring system. Genre and mood are checked for exact matches and add a fixed bonus if they align. Numeric features like energy, tempo, and acousticness are compared by proximity; the closer a song's value is to the user's preference, the higher it scores. All scores are summed and the top results are returned. There is no learning involved; the same input always produces the same output.
 
 ---
 
-## 8. Future Work  
+## Data
+The catalog contains 20 songs spanning a wide range of genres including pop, lofi, rock, jazz, classical, hip-hop, EDM, country, R&B, blues, folk, reggae, and soul. Moods include happy, chill, intense, focused, peaceful, melancholic, and more. There is a slight concentration in pop and lofi. 
 
-Ideas for how you would improve the model next.  
-
-Prompts:  
-
-- Additional features or preferences  
-- Better ways to explain recommendations  
-- Improving diversity among the top results  
-- Handling more complex user tastes  
-
-I want to add something to mix up the top results, but I don't think this will be an issue for small datasets like the sample one. I also want to rank the explanation messages by weight, since they are in fixed order and the most valuable factor could print last.
 ---
 
-## 9. Personal Reflection  
+## Strengths
+When a user's genre and mood preferences align with songs in the catalog, recommendations are intuitive and well-matched. The system is fully transparent and every score can be explained reason by reason. Results are deterministic, so there are no surprises from run to run.
 
-A few sentences about your experience.  
+---
 
-Prompts:  
+## Limitations and Bias
 
-- What you learned about recommender systems  
-- Something unexpected or interesting you discovered  
-- How this changed the way you think about music recommendation apps 
+**What are the limitations or biases in your system?**
 
-This project really cleared up recommender systems for me. I learned about how to run python code from the terminal when claude used the -m flag, and it taught me a bit about easily making testcases and writing apt docstrings. Now I know why spotify refuses to get off of certain genres at times.
+- The system heavily prioritizes genre and mood matches (+2.0 and +1.5 respectively), which can overshadow numeric feature similarity. A song in the wrong genre with a perfect energy match will lose to an on-genre song with mismatched energy.
+- Tempo scoring is uncapped on the low end — a very large BPM difference can produce a negative contribution, which could in theory drag a score below zero if other features are weak.
+- The catalog underrepresents some genres entirely (no k-pop, no latin, no metal subgenres beyond one entry), so users with those preferences will always receive cross-genre recommendations regardless of their input.
+- The profile builder derives preferences by averaging liked songs, which makes it sensitive to outliers — one very high-energy like inflates the target energy for all recommendations.
+- This model is only tested for these 20 songs, and other issues with new data may arise.
+
+---
+
+## Could Your AI Be Misused, and How Would You Prevent It?
+
+The system is low-risk by nature because it recommends songs and does nothing else. It doesn't include API calls, but it might be exploited if part of a larger song-streaming service to prioritize an artist.
+
+---
+
+## Evaluation
+
+**What surprised you while testing your AI's reliability?**
+
+The eval harness passed all 13 tests on the first run, which was not expected. The more interesting finding was that the "dead center" profile (energy=0.5, no genre or mood) produced a surprisingly diverse list — blues, lofi, country, and soul all appearing together — because energy proximity became the dominant factor when categorical bonuses were absent. This revealed that the genre/mood weights are what create the appearance of a "smart" recommender; without them, it reduces to a nearest-neighbor search on energy.
+
+I also tested rock versus lofi profiles and confirmed that rock recommendations were consistently high-energy and lofi recommendations were consistently below 0.5 energy, which matched intuition and validated the scoring weights.
+
+---
+
+## AI Collaboration
+
+**Helpful suggestion:** When designing the eval harness, Claude reframed what reliability testing means for a deterministic system — shifting focus from "did it get the right answer" to "do structural guarantees hold under stress." This was a more honest and useful framing than the original plan of just checking expected outputs.
+
+**Flawed suggestion:** Claude initially tried to develop an entirely CLI-based tool, which, although effective for this version of the program, would have limited user clarity and potential improvements to the frontend.
+
+---
+
+## Reflection
+
+This project clarified how recommender systems actually work at a mechanical level, and filled in the part that the original music matcher missed. I learned a good deal about how these algorithms figure out who their users are, and I understand why youTube asks you to search videos up when you start with a fresh profile - it has no user data to base its recommendations off of.
